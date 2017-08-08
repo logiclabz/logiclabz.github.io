@@ -53,3 +53,14 @@ workboxSW.router.registerRoute('https://fonts.googleapis.com/(.*)',
     networkTimeoutSeconds: 4
   })
 );
+
+// The route for any requests from the googleapis origin
+workboxSW.router.registerRoute('https://cdnjs.cloudflare.com/(.*)',
+  workboxSW.strategies.cacheFirst({
+    cacheName: 'cloudflare',
+    cacheableResponse: {
+      statuses: [0, 200]
+    },
+    networkTimeoutSeconds: 4
+  })
+);
