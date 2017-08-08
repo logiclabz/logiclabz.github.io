@@ -42,3 +42,25 @@ const fileManifest = [
 
 const workboxSW = new self.WorkboxSW();
 workboxSW.precache(fileManifest);
+
+// The route for any requests from the googleapis origin
+workboxSW.router.registerRoute('https://fonts.googleapis.com/(.*)',
+  workboxSW.strategies.cacheFirst({
+    cacheName: 'googleapis',
+    cacheableResponse: {
+      statuses: [0, 200]
+    },
+    networkTimeoutSeconds: 4
+  })
+);
+
+// The route for any requests from the cloudflare origin
+workboxSW.router.registerRoute('https://cdnjs.cloudflare.com/(.*)',
+  workboxSW.strategies.cacheFirst({
+    cacheName: 'cloudflare',
+    cacheableResponse: {
+      statuses: [0, 200]
+    },
+    networkTimeoutSeconds: 4
+  })
+);
